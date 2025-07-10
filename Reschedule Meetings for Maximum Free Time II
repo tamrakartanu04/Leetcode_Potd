@@ -1,3 +1,21 @@
+/* Tha main approach is that 
+step 1 : 
+        we are careting a free time array as "free"
+step 2:
+        for every free index we are computing the "maximum" free time available at its "left" and "right"
+step 3:
+        now we going to every free time index and just checking
+        case 1 :       
+                event time of just its left adjacent 
+                if event time is <= max(its left free time or right free time)  it means we can move that event to any other place
+                        so we will result = max(result, currFree free time + prev free time + event time);
+        case 2 :
+                just left and right shifting only on that gap
+                result = max(result, curr free time + prev free time)
+step 4 :
+        return result; */
+
+
 int maxFreeTime(int eventTime, vector<int>& startTime, vector<int>& endTime) {
         int n = startTime.size();
 
