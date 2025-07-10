@@ -1,0 +1,36 @@
+int maxFreeTime(int eventTime, vector<int>& startTime, vector<int>& endTime) {
+        int n = startTime.size();
+
+        // free time available
+        vector<int> free;
+        free.push_back(startTime[0]);
+        for(int i=1 ; i<n ; i++){
+            free.push_back(startTime[i]-endTime[i-1]);
+        }
+        free.push_back(eventTime-endTime[n-1]);
+        n = free.size();
+        vector<int> leftMaxFree(n, 0);
+        vector<int> rightMaxFree(n, 0);
+
+        for(int i=1 ; i<n ; i++){
+            leftMaxFree[i] = max(leftMaxFree[i-1], free[i-1]);
+        }
+        for(int i=n-2 ; i>=0 ; i--){
+            rightMaxFree[i] = max(rightMaxFree[i+1], free[i+1]);
+        }
+
+        int current = 0 ;
+        int result = 0;
+
+        for(int i=1; i<n ; i++){
+            int currentEventTime = endTime[i-1]-startTime[i-1];
+
+            if(currentEventTime<=max(leftMaxFree[i-1],rightMaxFree[i])){
+                result = max(result, free[i-1]+currentEventTime+free[i]);
+            }
+
+            result = max(result, free[i-1]+free[i]);
+        }
+
+        return result;
+    }
